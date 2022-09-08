@@ -1,0 +1,5 @@
+fin=open("teleport.in")
+fout=open("teleport.out","w")
+arr=list(int(x) for x in fin.readline().strip().split())
+(a,b,x,y)=(arr[0],arr[1],arr[2],arr[3])
+fout.write(str(min(abs(a-b),abs(a-x)+abs(y-b),abs(a-y)+abs(x-b))))

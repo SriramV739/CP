@@ -1,0 +1,5 @@
+fin=open("square.in")
+fout=open("square.out","w")
+a=list(int(x) for x in fin.readline().strip().split())
+b=list(int(x) for x in fin.readline().strip().split())
+fout.write(str((max(max(a[2],b[2])-min(a[0],b[0]),max(a[3],b[3])-min(a[1],b[1])))**2))
