@@ -7,6 +7,7 @@
 #include <queue>
 using namespace std;
 const int inf=501;
+const inf er=241;
 int arr[inf][inf];
 int n,m;
 bool visited[inf][inf];
