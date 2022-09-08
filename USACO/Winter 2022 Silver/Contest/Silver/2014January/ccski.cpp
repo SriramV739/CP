@@ -7,11 +7,11 @@
 #include <queue>
 using namespace std;
 const int inf=501;
-const inf er=241;
+const int er=241;
 int arr[inf][inf];
 int n,m;
 bool visited[inf][inf];
-vector<pair<int,int>> way;
+vector<pair<int,int> > way;
 void floodfill(int a,int b,int prev,int x){
     if (a<0||b<0||a>=m||b>=n||visited[a][b]||abs(arr[a][b]-prev)>x) return;
     visited[a][b]=true;
