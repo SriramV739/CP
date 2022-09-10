@@ -16,7 +16,7 @@ using namespace std;
 std::set<ll>::iterator it;
 const ll inf=1e5+1;
 int main(){
-    //ifstream cin("3.in");
+    ifstream cin("3.in");
     //ofstream cout(".out");
     ll n,m;
     cin>>n>>m;
@@ -42,6 +42,10 @@ int main(){
     while(!s.empty()){
         pair<ll,ll> it=(*s.begin());
         s.erase(s.begin());
+        vector<pair<ll,ll>> arr;
+        for(auto i:adj[it.second]){
+
+        }
         for(int i=0;i!=adj[it.second].size();i++){
             pair<ll,ll> d=adj[it.second][i];
             if(dist[d.second]>d.first+dist[it.second]){
