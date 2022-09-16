@@ -17,19 +17,23 @@ using namespace std;
 std::set<ll>::iterator it;
 const ll inf=1e5+1;
 int main(){
-    ifstream cin("2.in");
+    ifstream cin("b.in");
     //ofstream cout(".out");
-    string s,t;
-    cin>>s>>t;
-    ll n;
-    cin>>n;
-    string alp="abcdefghijklmnopqr";
-    set<pair<ll,ll>> work;
-    for(auto i:alp){
-        for(auto j:alp){
-            if(i!=j){
-                
-            }
-        }
+    ll t;
+    cin>>t;
+    while(t--){
+        ll n;
+        cin>>n;
+        ll arr[n];
+        arr[n-1]=n;
+        set<ll> s;
+        s.insert(n);
+        arr[n-2]=n-1;
+        arr[n-3]=1;
+        s.insert(n-1); s.insert(1);
+        ll counter=0;
+        for(int i=2;i!=n-1;i++) arr[i-2]=i;
+        for(auto i:arr) cout<<i<<" ";
+        cout<<"\n";
     }
 }

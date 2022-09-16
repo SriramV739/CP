@@ -17,19 +17,29 @@ using namespace std;
 std::set<ll>::iterator it;
 const ll inf=1e5+1;
 int main(){
-    ifstream cin("2.in");
+    //ifstream cin("a.in");
     //ofstream cout(".out");
-    string s,t;
-    cin>>s>>t;
-    ll n;
-    cin>>n;
-    string alp="abcdefghijklmnopqr";
-    set<pair<ll,ll>> work;
-    for(auto i:alp){
-        for(auto j:alp){
-            if(i!=j){
-                
+    ll t;
+    cin>>t;
+    while(t--){
+        ll n;
+        cin>>n;
+        ll most=-1;
+        ll ans;
+        for(int i=0;i!=n;i++){
+            ll x;
+            cin>>x;
+            if(most==-1){
+                most=x;
+                ans=i+1;
+            }
+            else{
+                if(most<x){
+                    most=x;
+                    ans=i+1;
+                }
             }
         }
+        cout<<ans<<"\n";
     }
 }

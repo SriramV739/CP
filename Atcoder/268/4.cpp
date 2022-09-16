@@ -22,37 +22,21 @@ bool done=false;
 ll n,m;
 ll sum=0;
 string ans;
-set<vector<ll> > states;
-void generate(ll add, ll curr, vector<ll> amount){
-    if(done) return;
-    if(states.count(amount)) return;
-    states.insert(amount);
-    if(curr==1){
-        for(int i=0;i!=n+1;i++) amount.push_back(0);
-    }
-    if(curr==add){
-        string s;
-        for(int i=0;i!=n-1;i++){
-            s+=arr[i];
-            s+='_';
-            for(int j=0;j!=amount[i+1];j++) s+='_';   
-        }
-        s+=arr[n-1];
-        if(s.size()>16) return;
-        if(!se.count(s)){
-            ans=s;
-            done=true;
+vector<vector<ll>> comb;
+void generate1(ll total,set<ll> ele,vector<ll> ans){
+    for(auto it=ele.begin();it!=ele.end();it++){
+        if(ans.size()==total-1){
+            ans.push_back(*it);
+            comb.push_back(ans);
             return;
         }
-        return;
-    }
-    for(int i=0;i!=n+1;i++){
-        amount[i]++;
-        generate(add,curr+1,amount);
+        ans.push_back(*it);
+        ele.erase(it);
+        generate1(total,ele,ans);
     }
 }
 int main(){
-    //ifstream cin("4.in");
+    ifstream cin("4.in");
     //ofstream cout(".out");
     
     cin>>n>>m;
@@ -77,9 +61,23 @@ int main(){
         return 0;
     }
     while(next_permutation(arr.begin(),arr.end())&&!done){
-        states.clear();
-        generate(16-sum,1,{});
+        comb.clear();
+        set<ll> ele;
+        for(int i=0;i!=17-sum;i++) ele.insert(i+1);
+        generate1(n,ele,{});
+        for(auto x:comb){
+            string res;
+            for(int i=0;i!=n-1;i++){
+                res+=arr[i];
+                res+='_';
+                for(int j=0;j!=x[i+1]-x[i]-1;j++) res+='_';
+            }
+            res+=arr[n-1];
+            if(!se.count(res)){
+                cout<<res<<"\n";
+                return 0;
+            }
+        }
     }
-    if(done) cout<<ans<<endl;
-    else cout<<"-1"<<endl;
+    cout<<"-1"<<endl;
 }
