@@ -3,60 +3,78 @@
 #include <iostream>
 #include <vector>
 #include <map>
+#include <stack>
+#include <queue>
 #include <set>
 #include <queue>
 #include <cmath>
+#define all(x) (x).begin(), (x).end()
+#define vec(n) vector<ll> arr(n);
+#define printarr(arr) for(auto i:arr) cout<<i<<" "; cout<<endl;
+typedef long long ll;
 using namespace std;
-const long long inf=1e5+100;
-long long n;
-long long ans=0;
+std::set<ll>::iterator it;
+const ll inf=1e5+1;
+ll n;
+pair<ll,ll> adj[inf];
 bool visited[inf];
-pair<long long,long long> times[inf];
-pair<long long,long long> adj[inf];
-long long currtime=0;
-vector<vector<long long>> cycle;
-vector<long long> sequence;
-void dfs(long long node){
-    if(visited[node]){
-        if(times[node].second!=-1) return;
-        sequence.push_back(node);
-        cycle.push_back({});
-        for(long long i=times[node].first;i!=currtime+1;i++){
-            cycle[cycle.size()-1].push_back(sequence[i]);
-            times[sequence[i]].second=i;
-        }
+ll pred[inf];
+bool cycle[inf];
+ll start,ep;
+bool test;
+map<ll,ll> iteration;
+ll iter=-1;
+void dfs(ll node){
+    if(test) return;
+    iteration[node]=iter;
+    visited[node]=true;
+    auto i=adj[node];
+    if(visited[i.first]){
+        if(!iteration.count(i.first)||iteration[i.first]!=iter) return;
+        pred[i.first]=node;
+        start=node;
+        ep=node;
+        test=true;
         return;
     }
-    visited[node]=true;
-    currtime++;
-    times[node].first=currtime;
-    sequence.push_back(node);
-    dfs(adj[node].first);
+    else if(!visited[i.first]){
+        pred[i.first]=node;
+        dfs(i.first);
+    }
 
 }
 int main(){
-    ifstream cin("1.in");
-    ofstream cout("1.out");
+    //ifstream cin("1.in");
+    //ofstream cout(".out");
     cin>>n;
-    for(long long i=0;i!=n;i++){
-        cin>>adj[i].first>>adj[i].second;
-        adj[i].first--;
-        ans+=adj[i].second;
+    ll sum=0;
+    for(int i=0;i!=n;i++){
+        ll a,b;
+        cin>>a>>b;
+        a--;
+        adj[i]={a,b};
+        sum+=b;
     }
-    for(long long i=0;i!=n;i++){
-        times[i].first=-1;
-        times[i].second=-1;
-    }
-    for(long long i=0;i!=n;i++){
-        if(!visited[i]) dfs(i);
-    }
-    for(auto i:cycle){
-        long long remove=1e9+1;
-        for(auto j:i){
-            remove=min(remove,adj[j].second);
+    for(int i=0;i!=n;i++){
+        if(!visited[i]){
+            iter++;
+            test=false;
+            dfs(i);
+            if(test){
+                ll curr=start;
+                ll most=-1;
+                while(true){
+                    if(most==-1) most=adj[pred[curr]].second;
+                    else{
+                        most=min(adj[pred[curr]].second,most);
+                    }
+                    curr=adj[curr].first;
+                    cycle[curr]=true;
+                    if(curr==start) break;
+                }
+                sum-=most;
+            }
         }
-        ans-=remove;
     }
-    cout<<ans<<"\n";
+    cout<<sum<<"\n";
 }
-
