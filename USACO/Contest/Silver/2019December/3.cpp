@@ -27,7 +27,7 @@ void dfs(ll node,ll lab){
     visited[node]=true;
     label[node]=lab;
     for(auto i:adj[node]){
-        if(!visited[i]){
+        if(!visited[i]&&cow[node]==cow[i]){
             dfs(i,lab);
         }
     }
