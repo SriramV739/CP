@@ -6,31 +6,36 @@
 #include <stack>
 #include <queue>
 #include <set>
+#include <time.h>
 #include <queue>
 #include <cmath>
 #define all(x) (x).begin(), (x).end()
 #define vec(n) vector<ll> arr(n);
 #define printarr(arr) for(auto i:arr) cout<<i<<" "; cout<<endl;
 typedef long long ll;
+typedef std::set<ll>::iterator iter; 
 using namespace std;
-const ll inf=1e6+1;
+string alph="abcdefghijklmnopqrstuvwxyz";
+std::set<ll>::iterator it;
+const ll inf=1e5+1;
 ll n,m;
-bool visited[inf];
-string color;
 vector<ll> adj[inf];
-ll comp[inf];
-void dfs(ll node,char col,ll cmp){
+bool visited[inf];
+string cow;
+ll label[inf];
+void dfs(ll node,ll lab){
     visited[node]=true;
-    comp[node]=cmp;
+    label[node]=lab;
     for(auto i:adj[node]){
-        if(!visited[i]&&color[i]==col) dfs(i,col,cmp);
+        if(!visited[i]){
+            dfs(i,lab);
+        }
     }
 }
 int main(){
     ifstream cin("milkvisits.in");
     ofstream cout("milkvisits.out");
-    cin>>n>>m;
-    cin>>color;
+    cin>>n>>m>>cow;
     for(int i=0;i!=n-1;i++){
         ll a,b;
         cin>>a>>b;
@@ -38,11 +43,11 @@ int main(){
         adj[a].push_back(b);
         adj[b].push_back(a);
     }
-    ll cmp=0;
+    ll lab=-1;
     for(int i=0;i!=n;i++){
         if(!visited[i]){
-            dfs(i,color[i],cmp);
-            cmp++;
+            lab++;
+            dfs(i,lab);
         }
     }
     for(int i=0;i!=m;i++){
@@ -50,9 +55,9 @@ int main(){
         char c;
         cin>>a>>b>>c;
         a--;b--;
-        if(color[a]==c||color[b]==c) cout<<1;
-        else if(comp[a]!=comp[b]) cout<<1;
+        if(cow[a]==c||cow[b]==c) cout<<1;
+        else if(label[a]!=label[b]) cout<<1;
         else cout<<0;
     }
-    cout<<endl;
+    cout<<"\n";
 }
