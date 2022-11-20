@@ -74,5 +74,6 @@
         "__functional_base": "cpp",
         "functional": "cpp",
         "iterator": "cpp"
-    }
+    },
+    "C_Cpp.errorSquiggles": "Disabled"
 }
