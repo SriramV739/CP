@@ -35,19 +35,22 @@ void dfs(ll node){
     }
 }
 int main(){
-    ifstream cin("2.in");
+    //ifstream cin("2.in");
+    //ofstream cout("2.out");
     //ofstream cout(".out");
     ll t;
     cin>>t;
-    while(t--){
+    for(int x=0;x!=t;x++){
         comp.clear();
         cin>>n>>m;
-        ll ans=1e18;
+        //if(x==3) cout<<n<<" "<<m<<"\n";
+        ll ans=-1;
         for(int i=0;i!=n;i++) adj[i].clear();
         for(int i=0;i!=n;i++) visited[i]=false;
         for(int i=0;i!=m;i++){
             ll a,b;
             cin>>a>>b;
+            //if(x==3) cout<<a<<" "<<b<<"\n";
             a--;b--;
             adj[a].push_back(b);
             adj[b].push_back(a);
@@ -83,6 +86,7 @@ int main(){
                     else minend=min((*it1-*it)*(*it1-*it),minend);
                 }
             }
+            if(ans==-1) ans=minstart+minend;
             ans=min(ans,minstart+minend);
         }
         cout<<ans<<"\n";
