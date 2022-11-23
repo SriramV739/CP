@@ -29,26 +29,7 @@ void dfs(ll node){
     }
 }
 int main(){
-    ifstream cin("e.in");
+    ifstream cin(".in");
     //ofstream cout(".out");
-    ll t;
-    cin>>t;
-    while(t--){
-        ll n,q;
-        cin>>n>>q;
-        ll arr[1001][1001];
-        for(int i=0;i!=1000;i++){
-            for(int j=0;j!=1000;j++) arr[i][j]=0;
-        }
-        for(int i=0;i!=n;i++){
-            ll a,b;
-            cin>>a>>b;
-            arr[a][b]+=(a*b);
-        }
-        for(int i=0;i!=q;i++){
-            ll a,b,c,d;
-            cin>>a>>b>>c>>d;
-            cout<<arr[c-1][d-1]-arr[c-1][b]-arr[a][d-1]+arr[a][b]<<"\n";
-        }
-    }
+    
 }

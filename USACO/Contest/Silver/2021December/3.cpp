@@ -9,7 +9,7 @@
 typedef long long ll;
 using namespace std;
 int main(){
-    //ifstream cin("3.in");
+    ifstream cin("3.in");
     //ofstream cout("3.out");
     ll n,m;
     cin>>n>>m;
