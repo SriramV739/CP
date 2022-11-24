@@ -6,6 +6,7 @@
 #include <stack>
 #include <queue>
 #include <set>
+#include <numeric>
 #include <time.h>
 #include <queue>
 #include <cmath>
@@ -29,19 +30,31 @@ void dfs(ll node){
     }
 }
 int main(){
-    //ifstream cin("a.in");
+    //ifstream cin("b.in");
     //ofstream cout(".out");
     ll t;
     cin>>t;
     while(t--){
-        ll a,b,c,d;
-        cin>>a>>b>>c>>d;
-        vector<ll> arr={a,b,c,d};
-        sort(arr.begin(),arr.end());
-        ll x=max(a,b);
-        ll y=max(c,d);
-        if((x==arr[2]&&y==arr[3])||(x==arr[3]&&y==arr[2])) cout<<"YES";
-        else cout<<"NO";
-        cout<<"\n";
+        ll n;
+        cin>>n;
+        vector<ll> v(n);
+        for(int i=0;i!=n;i++){
+            cin>>v[i];
+        }
+        vector<ll> arr;
+        for(auto i:v){
+            if(i%2==0) arr.push_back(i);
+        }
+        for(auto i:v){
+            if(i%2==1) arr.push_back(i);
+        }
+        ll ans=0;
+        for(int i=0;i!=n;i++){
+            for(int j=0;j!=n;j++){
+                if(j<=i) continue;
+                if(gcd(arr[i],2*(arr[j]))!=1) ans++;
+            }
+        }
+        cout<<ans<<"\n";
     }
 }
