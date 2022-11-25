@@ -18,7 +18,7 @@ using namespace std;
 string alph="abcdefghijklmnopqrstuvwxyz";
 std::set<ll>::iterator it;
 ll n;
-const ll inf=1e5+1;
+const ll inf=2*(1e5+1);
 set<ll> adj[inf];
 bool visited[inf];
 vector<pair<ll,ll>> v;
