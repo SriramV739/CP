@@ -19,27 +19,33 @@ using namespace std;
 string alph="abcdefghijklmnopqrstuvwxyz";
 std::set<ll>::iterator it;
 const ll inf=1e5+1;
-vector<pair<ll,ll>> adj[inf];
+vector<ll> adj[inf];
 bool visited[inf];
-int main(){
-    ifstream cin("g.in");
-    //ofstream cout(".out");
-    ll t;
-    cin>>t;
-    while(t--){
-        ll n,a,b;
-        cin>>n>>a>>b;
-        for(int i=0;i!=n;i++){
-            visited[i]=false;
-            adj[i].clear();
+void dfs(ll node){
+    visited[node]=true;
+    for(auto i:adj[node]){
+        if(!visited[i]){
+            dfs(i);
         }
-        for(int i=0;i!=n-1;i++){
-            ll x,y,c;
-            cin>>x>>y>>c;
-            x--;y--;
-            adj[x].push_back({y,x});
-            adj[y].push_back({x,c});
-        }
-        
     }
+}
+int main(){
+    //ofstream cout(".out");
+    ll n;
+    cin>>n;
+    vector<pair<ll,ll>> arr;
+    for(int i=0;i!=n;i++){
+        ll a,b;
+        cin>>a>>b;
+        arr.push_back({a,1});
+        arr.push_back({b,-1});
+    }
+    sort(arr.begin(),arr.end());
+    ll ans=0;
+    ll curr=0;
+    for(auto i:arr){
+        curr+=i.second;
+        ans=max(ans,curr);
+    }
+    cout<<ans<<"\n";
 }
