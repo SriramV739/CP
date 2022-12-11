@@ -54,7 +54,7 @@ void addcow(pair<int,int> cow){
 }
 int main(){
     ifstream fin("comfortable.in");
-    ofstream fout("comfortable.out");
+    //ofstream fout("comfortable.out");
     int n;
     fin>>n;
     for (int i=0;i!=n;i++){
@@ -62,6 +62,6 @@ int main(){
         fin>>a>>b;
         s.insert({a,b});
         addcow({a,b});
-        fout<<s.size()-i-1<<"\n";
+        cout<<s.size()-i-1<<"\n";
     }
 }
