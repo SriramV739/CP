@@ -29,23 +29,70 @@ void dfs(ll node){
     }
 }
 int main(){
-    ifstream cin("2.in");
+    //ifstream cin("2.in");
     //ofstream cout(".out");
     ll n,q;
     cin>>n>>q;
     string s; cin>>s;
-    vector<ll> pre,suff,f,s;
-    for(int i=0;i!=n+1;i++){
-        f.push_back(0);
-        s.push_back(0);
+    vector<ll> pre,suff,fir,sec;
+    for(int i=0;i!=n;i++){
+        fir.push_back(0);
+        sec.push_back(0);
+    }
+    for(auto c:capalph){
+        bool first=true;
+        char mi;
+        for(int i=0;i!=n;i++){
+            if(s[i]==c){
+                if(first){
+                    first=false;
+                    fir[i]=1;
+                    mi=c;
+                }
+                else{
+                    if(mi<c) fir[i]=1;
+                    mi=c;
+                }
+            }
+            else{
+                mi=min(mi,s[i]);
+            }
+        }
+        first=true;
+        for(int i=n-1;i!=-1;i--){
+            if(s[i]==c){
+                if(first){
+                    first=false;
+                    sec[i]=1;
+                    mi=c;
+                }
+                else{
+                    if(mi<c) sec[i]=1;
+                    mi=c;
+                }
+            }
+            else{
+                mi=min(mi,s[i]);
+            }
+        }
     }
     ll total=0;
-    char min;
-    bool first=true;
-    for(auto c:capalph){
-        if(first){
-            first=false;
-            
-        }
+    pre.push_back(total);
+    for(int i=0;i!=n;i++){
+        total+=fir[i];
+        pre.push_back(total);
+    }
+    total=0;
+    suff.push_back(0);
+    for(int i=n-1;i!=-1;i--){
+        total+=sec[i];
+        suff.push_back(total);
+    }
+    reverse(suff.begin(),suff.end());
+    //printarr(pre); printarr(suff);
+    while(q--){
+        ll a,b;
+        cin>>a>>b;
+        cout<<pre[a-1]+suff[b]<<'\n';
     }
 }
