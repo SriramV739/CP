@@ -24,15 +24,18 @@ bool visited[inf];
 ll ans=0;
 void dfs(ll node){
     visited[node]=true;
-    
+    ll count=0;
     for(auto i:adj[node]){
         if(!visited[i]){
+            count++;
+            ans++;
             dfs(i);
         }
     }
+    ans+=ceil(log2(count+1));
 }
 int main(){
-    ifstream cin("1.in");
+    //ifstream cin("1.in");
     //ofstream cout(".out");
     cin>>n;
     for(int i=0;i!=n-1;i++){
@@ -42,5 +45,6 @@ int main(){
         adj[a].push_back(b);
         adj[b].push_back(a);
     }
-
+    dfs(0);
+    cout<<ans<<"\n";
 }

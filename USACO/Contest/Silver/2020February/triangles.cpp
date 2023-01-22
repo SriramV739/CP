@@ -1,70 +1,90 @@
-#include <iostream>
+#include <algorithm>
 #include <fstream>
+#include <iostream>
 #include <vector>
 #include <map>
-#include <math.h>
+#include <stack>
+#include <queue>
+#include <set>
+#include <time.h>
+#include <queue>
+#include <numeric>
 #include <cmath>
-#include <algorithm>
+#define all(x) (x).begin(), (x).end()
+#define vec(n) vector<ll> arr(n);
+#define printarr(arr) for(auto i:arr) cout<<i<<" "; cout<<endl;
+typedef long long ll;
 using namespace std;
+string alph="abcdefghijklmnopqrstuvwxyz";
+string capalph="ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+const ll inf=1e5+1;
+vector<ll> adj[inf];
+bool visited[inf];
+void dfs(ll node){
+    visited[node]=true;
+    for(auto i:adj[node]){
+        if(!visited[i]){
+            dfs(i);
+        }
+    }
+}
 int main(){
-    ifstream fin("triangles.in");
-    ofstream fout("triangles.out");
-    int n;
-    fin>>n;
-    vector<vector<int>> arr;
-    map<int,vector<int>> x;
-    map<int,vector<int>> y;
-    for (int i=0;i!=n;i++){
-        int a,b;
-        fin>>a>>b;
-        arr.push_back({a,b});
-        if (x.count(a)){
-            x[a].push_back(b);
-        }
-        else x[a]={b};
-        if (y.count(b)){
-            y[b].push_back(a);
-        }
-        else y[b]={a};
+    ifstream cin("triangles.in");
+    ofstream cout("triangles.out");
+    ll n;
+    cin>>n;
+    vector<pair<ll,ll>> arr(n);
+    for(int i=0;i!=n;i++) cin>>arr[i].first>>arr[i].second;
+    map<ll,vector<ll>> x1,y1;
+    for(auto i:arr){
+        x1[i.first].push_back(i.second);
+        y1[i.second].push_back(i.first);
     }
-    
-    map<int,vector<int>> valx;
-    map<int,vector<int>> valy;
-    for (auto &[key,val]:x){
-        sort(x[key].begin(),x[key].end());
-        int curr=0;
-        for (int i=1;i!=val.size();i++){
-            curr+=(abs(val[i]-val[0]));
-        }
-        valx[key]={curr};
-        for (int i=1;i!=val.size();i++){
-            valx[key].push_back(valx[key][i-1]+(abs(val[i]-val[i-1]))*(2*i-val.size()));
+    map<ll,pair<vector<ll>,map<ll,ll>>> psumx,psumy;
+    for(auto [key,val]:x1){
+        auto temp=val;
+        // sort(temp.begin(),temp.end());
+        ll total=0;
+        for(int i=0;i!=temp.size();i++){
+            total+=temp[i];
+            psumx[key].first.push_back(total);
+            psumx[key].second[temp[i]]=i;
         }
     }
-    for (auto [key,val]:y){
-        sort(y[key].begin(),y[key].end());
-        int curr=0;
-        for (int i=1;i!=val.size();i++){
-            curr+=(abs(val[i]-val[0]));
-        }
-        valy[key]={curr};
-        for (int i=1;i!=val.size();i++){
-            valy[key].push_back((valy[key][i-1]+abs(val[i]-val[i-1])*(2*i-val.size())));
+    for(auto [key,val]:y1){
+        auto temp=val;
+        // sort(temp.begin(),temp.end());
+        ll total=0;
+        for(int i=0;i!=temp.size();i++){
+            total+=temp[i];
+            psumy[key].first.push_back(total);
+            psumy[key].second[temp[i]]=i;
         }
     }
-
-
-    unsigned long long res=0;
-    for (auto i:arr){
-        int yindex=find(x[i[0]].begin(),x[i[0]].end(),i[1])-x[i[0]].begin();
-        int xindex=find(y[i[1]].begin(),y[i[1]].end(),i[0])-y[i[1]].begin();
-        //cout<<(valx[i[0]][yindex])<<" "<<(valy[i[1]][xindex])<<((valx[i[0]][yindex])*(valy[i[1]][xindex]))%(unsigned long long)(pow(10,9)+7);
-        int a=(valx[i[0]][yindex]);
-        int b=(valy[i[1]][xindex]);
-        res+= ((long long)(valx[i[0]][yindex])*(long long)(valy[i[1]][xindex]));
-   
+    ll ans=0;
+    ll mod=1e9+7;
+    for(auto i:arr){
+        ll x=i.first; ll y=i.second;
+        ll ind=psumx[x].second[y];
+        auto a=psumx[x].first;
+        auto s=a.size();
+        if(s<=1) continue;
+        ll xprod=(y*(ind+1))%mod;
+        xprod-=psumx[x].first[ind]%mod;
+        xprod+=a[s-1]%mod;
+        xprod-=a[ind]%mod;
+        xprod-=y*(s-ind-1)%mod;
+        ind=psumy[y].second[x];
+        a=psumy[y].first;
+        s=a.size();
+        if(s<=1) continue;
+        //ll yprod=(x*(ind+1)-psumy[y].first[ind]+a[s-1]-a[ind]-x*(s-ind-1))%mod;
+        ll yprod=(x*(ind+1))%mod;
+        yprod-=psumy[y].first[ind]%mod;
+        yprod+=a[s-1]%mod;
+        yprod-=a[ind]%mod;
+        yprod-=x*(s-ind-1)%mod;
+        ans+=(xprod*yprod);
     }
-
-    
-    fout<<res%(long long)(pow(10,9)+7)<<"\n";
+    cout<<ans<<"\n";
 }

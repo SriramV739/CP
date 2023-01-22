@@ -14,47 +14,57 @@
 #define vec(n) vector<ll> arr(n);
 #define printarr(arr) for(auto i:arr) cout<<i<<" "; cout<<endl;
 typedef long long ll;
-typedef std::set<ll>::iterator iter; 
 using namespace std;
 string alph="abcdefghijklmnopqrstuvwxyz";
-std::set<ll>::iterator it;
+string capalph="ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 const ll inf=1e5+1;
 vector<ll> adj[inf];
 bool visited[inf];
-bool reachable[inf][inf];
-void dfs(ll node,ll orig){
+void dfs(ll node){
     visited[node]=true;
-    reachable[orig][node]=true;
     for(auto i:adj[node]){
         if(!visited[i]){
-            dfs(i,orig);
+            dfs(i);
         }
     }
 }
 int main(){
-    //ifstream cin("1.in");
+    //ifstream cin("a.in");
     //ofstream cout(".out");
     ll n;
     cin>>n;
-    ll arr[n][n];
-    for(int i=0;i!=n;i++){
-        for(int j=0;j!=n;j++) cin>>arr[i][j];
-    }
-    for(int i=0;i!=n;i++){
-        for(int j=0;j!=n;j++){
-            if(arr[i][j]==i+1) break;
-            adj[i].push_back(arr[i][j]);
+    while(n--){
+        ll a,b;
+        cin>>a>>b;
+        if(a==b){
+            cout<<0<<"\n";
+            continue;
         }
-    }
-    for(int i=0;i!=n;i++){
-        if(!visited[i]) dfs(i,i);
-    }
-    for(int i=0;i!=n;i++){
-        for(int j=0;j!=n;j++){
-            if(reachable[arr[i][j]][i]){
-                cout<<arr[i][j]<<"\n";
-                break;
+        ll val=ceil(log2(a));
+        ll ans=-1;
+        for(int i=0;i<val;i++){
+            ll count=0;
+            ll total=0;
+            ll curr=b;
+            while(count!=i){
+                if(curr%2==1) curr--;
+                else{
+                    curr/=2;
+                    count++;
+                }
+                total++;
             }
+            ll temp=a;
+            while(temp>curr){
+                if(temp%2==1) temp++;
+                else temp/=2;
+                total++;
+                if(temp==1) break;
+            }
+            total+=(curr-temp);
+            if(ans==-1) ans=total;
+            else ans=min(ans,total);
         }
+        cout<<ans<<"\n";
     }
 }

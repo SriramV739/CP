@@ -22,9 +22,8 @@ ll up(ll a,ll b){
 }
 int main(){
     ifstream cin("soulmate.in");
-    ofstream fout("soulmate.out");
+    //ofstream fout("soulmate.out");
     ll n;
-    cout<<(up(175,4818));
     cin>>n;
     for (int i=0;i!=n;i++){
         ll ans=0;
@@ -46,8 +45,8 @@ int main(){
             a/=2;
             add++;
         }
-        if (total.size()==0) fout<<ans<<"\n";
+        if (total.size()==0) cout<<ans<<"\n";
         else{ans+=*min_element(total.begin(),total.end());
-        fout<<ans<<"\n";}
+        cout<<ans<<"\n";}
     }
 }
